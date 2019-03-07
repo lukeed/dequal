@@ -56,6 +56,17 @@ Both `foo` and `bar` can be on any type.<br>
 A `Boolean` is returned indicating if the two were deeply equal.
 
 
+## Benchmarks
+
+> Running Node v10.13.0
+
+```
+fast-deep-equal   x 214,365 ops/sec ±0.30% (93 runs sampled)
+dequal            x 160,116 ops/sec ±0.29% (93 runs sampled)
+lodash.isEqual    x  45,257 ops/sec ±0.26% (95 runs sampled)
+```
+<sup>_Candidates operate identically to one another_</sup>
+
 ## License
 
 MIT © [Luke Edwards](https://lukeed.com)
