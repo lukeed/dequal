@@ -6,6 +6,7 @@
   "unpkg": "dist/dequal.min.js",
   "module": "dist/dequal.mjs",
   "main": "dist/dequal.js",
+  "types": "dequal.d.ts",
   "license": "MIT",
   "author": {
     "name": "Luke Edwards",
@@ -21,6 +22,7 @@
     "test": "tape test/*.js | tap-spec"
   },
   "files": [
+    "*.d.ts",
     "dist"
   ],
   "keywords": [
