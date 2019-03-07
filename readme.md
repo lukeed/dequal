@@ -5,7 +5,7 @@
 This module supports comparison of all types, including `Function`, `RegExp`, `Date`, `null`, `undefined`, and `NaN` values.<br>
 Objects and Arrays are traversed recursively.
 
-> Please note that key order **within Objects** does not affect the result.<br>
+> Please note that key order **within Objects** does not matter.<br>
 However, the value order **within Arrays** does matter.
 
 This module exposes three module definitions:
@@ -52,7 +52,7 @@ dequal(/foo/i, /bar/g); //=> false
 ### dequal(foo, bar)
 Returns: `Boolean`
 
-Both `foo` and `bar` can be on any type.<br>
+Both `foo` and `bar` can be of any type.<br>
 A `Boolean` is returned indicating if the two were deeply equal.
 
 
