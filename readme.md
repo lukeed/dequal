@@ -8,10 +8,10 @@ Objects and Arrays are traversed recursively.
 > Please note that key order **within Objects** does not affect the result.<br>
 However, the value order **within Arrays** does matter.
 
-This module exposes two module definitions:
+This module exposes three module definitions:
 
-* **ES Module**: `dist/dequal.mjs`
 * **CommonJS**: `dist/dequal.js`
+* **ESModule**: `dist/dequal.mjs`
 * **UMD**: `dist/dequal.min.js`
 
 
