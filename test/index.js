@@ -1,147 +1,133 @@
-const test = require('tape');
-const fn = require('../dist/dequal');
+import { test } from 'uvu';
+import * as assert from 'uvu/assert';
+import fn from '../src';
 
-const log = x => JSON.stringify(x);
+function same(a, b) {
+	assert.is(fn(a, b), true);
+}
 
-test.Test.prototype.true = function (a, b) {
-	this.is(fn(a, b), true, `~> true: ${log(a)} VS ${log(b)}`);
-};
+function different(a, b) {
+	assert.is(fn(a, b), false);
+}
 
-test.Test.prototype.false = function (a, b) {
-	this.is(fn(a, b), false, `~> false: ${log(a)} VS ${log(b)}`);
-};
-
-test('exports', t => {
-	t.is(typeof fn, 'function', 'exports a function');
-	t.end();
+test('exports', () => {
+	assert.type(fn, 'function');
 });
 
-test('scalars', t => {
-	t.true(1, 1);
-	t.false(1, 2);
-	t.false(1, []);
-	t.false(1, '1');
-	t.true(Infinity, Infinity);
-	t.false(Infinity, -Infinity);
-	t.false(NaN, undefined);
-	t.false(NaN, null);
-	t.true(NaN, NaN);
-	t.false(1, -1);
-	t.true(0, -0);
+test('scalars', () => {
+	same(1, 1);
+	different(1, 2);
+	different(1, []);
+	different(1, '1');
+	same(Infinity, Infinity);
+	different(Infinity, -Infinity);
+	different(NaN, undefined);
+	different(NaN, null);
+	same(NaN, NaN);
+	different(1, -1);
+	same(0, -0);
 
-	t.true(null, null);
-	t.true(void 0, undefined);
-	t.true(undefined, undefined);
-	t.false(null, undefined);
-	t.false('', null);
-	t.false(0, null);
+	same(null, null);
+	same(void 0, undefined);
+	same(undefined, undefined);
+	different(null, undefined);
+	different('', null);
+	different(0, null);
 
-	t.true(true, true);
-	t.true(false, false);
-	t.false(true, false);
-	t.false(0, false);
-	t.false(1, true);
+	same(true, true);
+	same(false, false);
+	different(true, false);
+	different(0, false);
+	different(1, true);
 
-	t.true('a', 'a');
-	t.false('a', 'b');
-
-	t.end();
+	same('a', 'a');
+	different('a', 'b');
 });
 
-test('Objects', t => {
-	t.true({}, {});
-	t.true({ a:1, b:2 }, { a:1, b:2 });
-	t.true({ b:2, a:1 }, { a:1, b:2 });
+test('Objects', () => {
+	same({}, {});
+	same({ a:1, b:2 }, { a:1, b:2 });
+	same({ b:2, a:1 }, { a:1, b:2 });
 
-	t.false({ a:1, b:2, c:[] }, { a:1, b:2 });
-	t.false({ a:1, b:2 }, { a:1, b:2, c:[] });
-	t.false({ a:1, c:3 }, { a:1, b:2 });
+	different({ a:1, b:2, c:[] }, { a:1, b:2 });
+	different({ a:1, b:2 }, { a:1, b:2, c:[] });
+	different({ a:1, c:3 }, { a:1, b:2 });
 
-	t.true({ a:[{ b:1 }] }, { a:[{ b:1 }] });
-	t.false({ a:[{ b:2 }] }, { a:[{ b:1 }] });
-	t.false({ a:[{ c:1 }] }, { a:[{ b:1 }] });
+	same({ a:[{ b:1 }] }, { a:[{ b:1 }] });
+	different({ a:[{ b:2 }] }, { a:[{ b:1 }] });
+	different({ a:[{ c:1 }] }, { a:[{ b:1 }] });
 
-	t.false([], {});
-	t.false({}, []);
-	t.false({}, null);
-	t.false({}, undefined);
+	different([], {});
+	different({}, []);
+	different({}, null);
+	different({}, undefined);
 
-	t.false({ a:void 0 }, {});
-	t.false({}, { a:undefined });
-	t.false({ a:undefined }, { b:undefined });
-
-	t.end();
+	different({ a:void 0 }, {});
+	different({}, { a:undefined });
+	different({ a:undefined }, { b:undefined });
 });
 
-test('Arrays', t => {
-	t.true([], []);
-	t.true([1,2,3], [1,2,3]);
-	t.false([1,2,4], [1,2,3]);
-	t.false([1,2], [1,2,3]);
+test('Arrays', () => {
+	same([], []);
+	same([1,2,3], [1,2,3]);
+	different([1,2,4], [1,2,3]);
+	different([1,2], [1,2,3]);
 
-	t.true([{ a:1 }, { b:2 }], [{ a:1 }, { b:2 }]);
-	t.false([{ a:2 }, { b:2 }], [{ a:1 }, { b:2 }]);
+	same([{ a:1 }, { b:2 }], [{ a:1 }, { b:2 }]);
+	different([{ a:2 }, { b:2 }], [{ a:1 }, { b:2 }]);
 
-	t.false({ '0':0, '1':1, length:2 }, [0, 1]);
-
-	t.end();
+	different({ '0':0, '1':1, length:2 }, [0, 1]);
 });
 
-test('Dates', t => {
-	t.true(
+test('Dates', () => {
+	same(
 		new Date('2015-05-01T22:16:18.234Z'),
 		new Date('2015-05-01T22:16:18.234Z')
 	);
 
-	t.false(
+	different(
 		new Date('2015-05-01T22:16:18.234Z'),
 		new Date('2017-01-01T00:00:00.000Z')
 	);
 
-	t.false(
+	different(
 		new Date('2015-05-01T22:16:18.234Z'),
 		'2015-05-01T22:16:18.234Z'
 	);
 
-	t.false(
+	different(
 		new Date('2015-05-01T22:16:18.234Z'),
 		1430518578234
 	);
 
-	t.false(
+	different(
 		new Date('2015-05-01T22:16:18.234Z'),
 		{}
 	);
-
-	t.end();
 });
 
-test('RegExps', t => {
-	t.true(/foo/, /foo/);
-	t.true(/foo/i, /foo/i);
+test('RegExps', () => {
+	same(/foo/, /foo/);
+	same(/foo/i, /foo/i);
 
-	t.false(/foo/, /bar/);
-	t.false(/foo/, /foo/i);
+	different(/foo/, /bar/);
+	different(/foo/, /foo/i);
 
-	t.false(/foo/, 'foo');
-	t.false(/foo/, {});
-
-	t.end();
+	different(/foo/, 'foo');
+	different(/foo/, {});
 });
 
-test('Functions', t => {
+test('Functions', () => {
 	let foo = () => {};
 	let bar = () => {};
 
-	t.true(foo, foo);
-	t.false(foo, bar);
-	t.false(foo, () => {});
-
-	t.end();
+	same(foo, foo);
+	different(foo, bar);
+	different(foo, () => {});
 });
 
-test('kitchen sink', t => {
-	t.true({
+test('kitchen sink', () => {
+	same({
     prop1: 'value1',
     prop2: 'value2',
     prop3: 'value3',
@@ -168,6 +154,6 @@ test('kitchen sink', t => {
       subProp1: 'sub value1'
     }
   });
-
-	t.end();
 });
+
+test.run();
