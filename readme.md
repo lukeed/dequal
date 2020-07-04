@@ -24,7 +24,7 @@ $ npm install --save dequal
 ## Usage
 
 ```js
-const dequal = require('dequal');
+import dequal from 'dequal';
 
 dequal(1, 1); //=> true
 dequal({}, {}); //=> true
@@ -60,11 +60,30 @@ A `Boolean` is returned indicating if the two were deeply equal.
 > Running Node v10.13.0
 
 ```
-fast-deep-equal   x 214,365 ops/sec ±0.30% (93 runs sampled)
-dequal            x 160,116 ops/sec ±0.29% (93 runs sampled)
-lodash.isEqual    x  45,257 ops/sec ±0.26% (95 runs sampled)
+Load times:
+  assert:            0.111ms
+  util:              0.007ms
+  fast-deep-equal:   0.550ms
+  lodash/isequal:   22.396ms
+  nano-equal:        0.628ms
+  dequal:            0.517ms
+
+Validation:
+  ✔ assert.deepStrictEqual
+  ✔ util.isDeepStrictEqual
+  ✔ fast-deep-equal
+  ✔ lodash.isEqual
+  ✔ nano-equal
+  ✔ dequal
+
+Benchmark:
+  assert.deepStrictEqual x 208,260 ops/sec ±0.89% (94 runs sampled)
+  util.isDeepStrictEqual x 209,764 ops/sec ±0.95% (95 runs sampled)
+  fast-deep-equal        x 443,862 ops/sec ±0.86% (95 runs sampled)
+  lodash.isEqual         x 194,133 ops/sec ±0.43% (95 runs sampled)
+  nano-equal             x 414,957 ops/sec ±0.41% (98 runs sampled)
+  dequal                 x 507,470 ops/sec ±0.60% (95 runs sampled)
 ```
-<sup>_Candidates operate identically to one another_</sup>
 
 ## License
 
