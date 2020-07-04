@@ -1,9 +1,8 @@
-# dequal [![Build Status](https://badgen.now.sh/travis/lukeed/dequal)](https://travis-ci.org/lukeed/dequal)
+# dequal [![CI](https://github.com/lukeed/dequal/workflows/CI/badge.svg)](https://github.com/lukeed/dequal/actions)
 
-> A tiny (247B) utility to check for deep equality
+> A tiny (249B) utility to check for deep equality
 
-This module supports comparison of all types, including `Function`, `RegExp`, `Date`, `null`, `undefined`, and `NaN` values.<br>
-Objects and Arrays are traversed recursively.
+This module supports comparison of all types, including `Function`, `RegExp`, `Date`, `null`, `undefined`, and `NaN` values. Objects and Arrays are traversed recursively.
 
 > Please note that key order **within Objects** does not matter.<br>
 However, the value order **within Arrays** does matter.
