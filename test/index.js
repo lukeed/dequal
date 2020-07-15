@@ -236,6 +236,33 @@ Classes('accessors', () => {
 	same(new Test, new Test);
 });
 
+Classes('values but not prototype', () => {
+	class Item {
+		constructor() {
+			this.foo = 1;
+			this.bar = 2;
+		}
+	}
+
+	const hello = new Item;
+	const world = {
+		foo: 1,
+		bar: 2,
+	};
+
+	assert.is(
+		JSON.stringify(hello),
+		JSON.stringify(world)
+	);
+
+	different(hello, world);
+
+	hello.foo = world.foo;
+	hello.bar = world.bar;
+
+	different(hello, world);
+});
+
 Classes.run();
 
 // ---
