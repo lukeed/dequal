@@ -1,6 +1,6 @@
 # dequal [![CI](https://github.com/lukeed/dequal/workflows/CI/badge.svg)](https://github.com/lukeed/dequal/actions)
 
-> A tiny (249B) utility to check for deep equality
+> A tiny (305B) utility to check for deep equality
 
 This module supports comparison of all types, including `Function`, `RegExp`, `Date`, `null`, `undefined`, and `NaN` values. Objects and Arrays are traversed recursively.
 
