@@ -81,6 +81,15 @@ Objects('Objects', () => {
 	different({ a:undefined }, { b:undefined });
 });
 
+Objects('dictionary', () => {
+	const foo = Object.create(null);
+	const bar = Object.create(null);
+	same(foo, bar);
+
+	foo.hello = 'world';
+	different(foo, bar);
+});
+
 Objects.run();
 
 // ---

@@ -1,3 +1,5 @@
+var has = Object.prototype.hasOwnProperty;
+
 export default function dequal(foo, bar) {
 	var ctor, len;
 	if (foo === bar) return true;
@@ -8,7 +10,7 @@ export default function dequal(foo, bar) {
 
 		if (ctor === Array) {
 			if ((len=foo.length) === bar.length) {
-			while (len-- && dequal(foo[len], bar[len]));
+				while (len-- && dequal(foo[len], bar[len]));
 			}
 			return len === -1;
 		}
@@ -16,11 +18,11 @@ export default function dequal(foo, bar) {
 		if (!ctor || typeof foo === 'object') {
 			len = 0;
 			for (ctor in foo) {
-				if (foo.hasOwnProperty(ctor) && ++len && !bar.hasOwnProperty(ctor)) return false;
+				if (has.call(foo, ctor) && ++len && !has.call(bar, ctor)) return false;
 				if (!(ctor in bar) || !dequal(foo[ctor], bar[ctor])) return false;
-		}
+			}
 			return Object.keys(bar).length === len;
-	}
+		}
 	}
 
 	return foo !== foo && bar !== bar;
