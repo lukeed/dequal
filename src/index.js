@@ -4,8 +4,11 @@ export default function dequal(foo, bar) {
 	if (foo && bar && (ctor=foo.constructor) === bar.constructor) {
 		if (ctor === Date) return foo.getTime() === bar.getTime();
 		if (ctor === RegExp) return foo.toString() === bar.toString();
-		if (ctor === Array && (len=foo.length) === bar.length) {
+
+		if (ctor === Array) {
+			if ((len=foo.length) === bar.length) {
 			while (len-- && dequal(foo[len], bar[len]));
+			}
 			return len === -1;
 		}
 		if (ctor === Object) {
