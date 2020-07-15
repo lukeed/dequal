@@ -1,6 +1,7 @@
 export default function dequal(foo, bar) {
 	var ctor, len;
 	if (foo === bar) return true;
+
 	if (foo && bar && (ctor=foo.constructor) === bar.constructor) {
 		if (ctor === Date) return foo.getTime() === bar.getTime();
 		if (ctor === RegExp) return foo.toString() === bar.toString();
@@ -11,11 +12,16 @@ export default function dequal(foo, bar) {
 			}
 			return len === -1;
 		}
-		if (ctor === Object) {
-			if (Object.keys(foo).length !== Object.keys(bar).length) return false;
-			for (len in foo) if (!(len in bar) || !dequal(foo[len], bar[len])) return false;
-			return true;
+
+		if (!ctor || typeof foo === 'object') {
+			len = 0;
+			for (ctor in foo) {
+				if (foo.hasOwnProperty(ctor) && ++len && !bar.hasOwnProperty(ctor)) return false;
+				if (!(ctor in bar) || !dequal(foo[ctor], bar[ctor])) return false;
 		}
+			return Object.keys(bar).length === len;
 	}
+	}
+
 	return foo !== foo && bar !== bar;
 }
