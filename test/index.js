@@ -1,4 +1,4 @@
-import { test } from 'uvu';
+import { suite } from 'uvu';
 import * as assert from 'uvu/assert';
 import fn from '../src';
 
@@ -10,11 +10,19 @@ function different(a, b) {
 	assert.is(fn(a, b), false);
 }
 
-test('exports', () => {
+const API = suite('exports');
+
+API('exports', () => {
 	assert.type(fn, 'function');
 });
 
-test('scalars', () => {
+API.run();
+
+// ---
+
+const scalars = suite('scalars');
+
+scalars('scalars', () => {
 	same(1, 1);
 	different(1, 2);
 	different(1, []);
@@ -44,7 +52,13 @@ test('scalars', () => {
 	different('a', 'b');
 });
 
-test('Objects', () => {
+scalars.run();
+
+// ---
+
+const Objects = suite('Object');
+
+Objects('Objects', () => {
 	same({}, {});
 	same({ a:1, b:2 }, { a:1, b:2 });
 	same({ b:2, a:1 }, { a:1, b:2 });
@@ -67,7 +81,13 @@ test('Objects', () => {
 	different({ a:undefined }, { b:undefined });
 });
 
-test('Arrays', () => {
+Objects.run();
+
+// ---
+
+const Arrays = suite('Array');
+
+Arrays('Arrays', () => {
 	same([], []);
 	same([1,2,3], [1,2,3]);
 	different([1,2,4], [1,2,3]);
@@ -79,7 +99,13 @@ test('Arrays', () => {
 	different({ '0':0, '1':1, length:2 }, [0, 1]);
 });
 
-test('Dates', () => {
+Arrays.run();
+
+// ---
+
+const Dates = suite('Date');
+
+Dates('Dates', () => {
 	same(
 		new Date('2015-05-01T22:16:18.234Z'),
 		new Date('2015-05-01T22:16:18.234Z')
@@ -106,7 +132,13 @@ test('Dates', () => {
 	);
 });
 
-test('RegExps', () => {
+Dates.run();
+
+// ---
+
+const RegExps = suite('RegExp');
+
+RegExps('RegExps', () => {
 	same(/foo/, /foo/);
 	same(/foo/i, /foo/i);
 
@@ -117,7 +149,13 @@ test('RegExps', () => {
 	different(/foo/, {});
 });
 
-test('Functions', () => {
+RegExps.run();
+
+// ---
+
+const Functions = suite('Function');
+
+Functions('Functions', () => {
 	let foo = () => {};
 	let bar = () => {};
 
@@ -126,7 +164,12 @@ test('Functions', () => {
 	different(foo, () => {});
 });
 
-test('kitchen sink', () => {
+Functions.run();
+
+// ---
+const kitchen = suite('kitchen');
+
+kitchen('kitchen sink', () => {
 	same({
     prop1: 'value1',
     prop2: 'value2',
@@ -156,4 +199,4 @@ test('kitchen sink', () => {
   });
 });
 
-test.run();
+kitchen.run();
