@@ -167,6 +167,70 @@ Functions('Functions', () => {
 Functions.run();
 
 // ---
+
+const Classes = suite('class');
+
+Classes('class', () => {
+	class Foobar {}
+	same(new Foobar, new Foobar);
+});
+
+// @see https://github.com/lukeed/klona/issues/14
+Classes('prototype', () => {
+	function Test () {}
+	Test.prototype.val = 42;
+
+	same(new Test, new Test);
+});
+
+Classes('constructor properties', () => {
+	function Test (num) {
+		this.value = num;
+	}
+
+	Test.prototype.val = 42;
+
+	same(new Test(123), new Test(123));
+	different(new Test(0), new Test(123));
+});
+
+Classes('constructor properties :: class', () => {
+	class Test {
+		constructor(num) {
+			this.value = num;
+		}
+	}
+
+	same(new Test, new Test);
+	same(new Test(123), new Test(123));
+	different(new Test, new Test(123));
+});
+
+Classes('constructor properties :: defaults', () => {
+	class Test {
+		constructor(num = 123) {
+			this.value = num;
+		}
+	}
+
+	same(new Test(456), new Test(456));
+	same(new Test(123), new Test);
+});
+
+Classes('accessors', () => {
+	class Test {
+		get val() {
+			return 42;
+		}
+	}
+
+	same(new Test, new Test);
+});
+
+Classes.run();
+
+// ---
+
 const kitchen = suite('kitchen');
 
 kitchen('kitchen sink', () => {
