@@ -61,12 +61,12 @@ A `Boolean` is returned indicating if the two were deeply equal.
 
 ```
 Load times:
-  assert:            0.111ms
-  util:              0.007ms
-  fast-deep-equal:   0.550ms
-  lodash/isequal:   22.396ms
-  nano-equal:        0.628ms
-  dequal:            0.517ms
+  assert:            0.166ms
+  util:              0.032ms
+  fast-deep-equal    0.712ms
+  lodash/isequal    24.700ms
+  nano-equal         0.506ms
+  dequal             0.365ms
 
 Validation:
   ✔ assert.deepStrictEqual
@@ -77,12 +77,12 @@ Validation:
   ✔ dequal
 
 Benchmark:
-  assert.deepStrictEqual x 208,260 ops/sec ±0.89% (94 runs sampled)
-  util.isDeepStrictEqual x 209,764 ops/sec ±0.95% (95 runs sampled)
-  fast-deep-equal        x 443,862 ops/sec ±0.86% (95 runs sampled)
-  lodash.isEqual         x 194,133 ops/sec ±0.43% (95 runs sampled)
-  nano-equal             x 414,957 ops/sec ±0.41% (98 runs sampled)
-  dequal                 x 507,470 ops/sec ±0.60% (95 runs sampled)
+  assert.deepStrictEqual x 211,987 ops/sec ±1.47% (92 runs sampled)
+  util.isDeepStrictEqual x 213,516 ops/sec ±1.25% (93 runs sampled)
+  fast-deep-equal        x 479,017 ops/sec ±1.15% (89 runs sampled)
+  lodash.isEqual         x 207,120 ops/sec ±0.47% (96 runs sampled)
+  nano-equal             x 409,286 ops/sec ±0.73% (97 runs sampled)
+  dequal                 x 541,815 ops/sec ±0.95% (94 runs sampled)
 ```
 
 ## License
