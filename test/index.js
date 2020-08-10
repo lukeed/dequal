@@ -1,19 +1,19 @@
 import { suite } from 'uvu';
 import * as assert from 'uvu/assert';
-import fn from '../src';
+import { dequal } from '../src';
 
 function same(a, b) {
-	assert.is(fn(a, b), true);
+	assert.is(dequal(a, b), true);
 }
 
 function different(a, b) {
-	assert.is(fn(a, b), false);
+	assert.is(dequal(a, b), false);
 }
 
 const API = suite('exports');
 
 API('exports', () => {
-	assert.type(fn, 'function');
+	assert.type(dequal, 'function');
 });
 
 API.run();
