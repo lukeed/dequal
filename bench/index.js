@@ -23,7 +23,7 @@ const nanoequal = require('nano-equal');
 console.timeEnd('nano-equal');
 
 console.time('dequal');
-const dequal = require('dequal');
+const { dequal } = require('dequal');
 console.timeEnd('dequal');
 
 
