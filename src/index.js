@@ -1,6 +1,6 @@
 var has = Object.prototype.hasOwnProperty;
 
-export default function dequal(foo, bar) {
+export function dequal(foo, bar) {
 	var ctor, len;
 	if (foo === bar) return true;
 
