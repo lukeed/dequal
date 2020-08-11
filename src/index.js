@@ -15,6 +15,18 @@ export function dequal(foo, bar) {
 			return len === -1;
 		}
 
+		if (ctor === Set) {
+			if (foo.size !== bar.size) return false;
+			for (len of foo) if (!bar.has(len)) return false;
+			return true;
+		}
+
+		if (ctor === Map) {
+			if (foo.size !== bar.size) return false;
+			for (len of foo) if (!dequal(len[1], bar.get(len[0]))) return false;
+			return true;
+		}
+
 		if (!ctor || typeof foo === 'object') {
 			len = 0;
 			for (ctor in foo) {
