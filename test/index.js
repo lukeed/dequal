@@ -315,7 +315,7 @@ Maps('nested', () => {
 	same(hello, world);
 });
 
-Maps('nested :: keys', () => {
+Maps('keys :: complex', () => {
 	const hello = new Map([
 		[{ foo:1 }, { a:1 }]
 	]);
@@ -325,8 +325,7 @@ Maps('nested :: keys', () => {
 	]);
 
 	// Must be referential equality
-	// TODO: Use `dequal/full` for key equality checks
-	different(hello, world);
+	same(hello, world);
 
 	// @ts-ignore
 	[...world.keys()][0].bar = 2;
@@ -335,6 +334,26 @@ Maps('nested :: keys', () => {
 	assert.equal([...world.keys()][0], { foo:1, bar:2 });
 
 	different(hello, world);
+});
+
+Maps('keys :: value-based', () => {
+	different(
+		new Map([
+			[{ a: 1 }, undefined]
+		]),
+		new Map([
+			[{ a: 1 }, {}]
+		])
+	);
+
+	same(
+		new Map([
+			[{ a: 1 }, 1]
+		]),
+		new Map([
+			[{ a: 1 }, 1]
+		])
+	);
 });
 
 Maps.run();
@@ -366,7 +385,7 @@ Sets('flat :: order', () => {
 	same(hello, world);
 });
 
-Sets('nested', () => {
+Sets('complex', () => {
 	const hello = new Set([
 		'foo', 'bar', { a: 1 }, [1, 2, 3]
 	]);
@@ -379,10 +398,13 @@ Sets('nested', () => {
 
 	// @ts-ignore
 	world.add([1, 2, 3]);
+	same(hello, world);
 
-	// Must be referential equality
-	// TODO: Use `dequal/full` for key equality checks
+	world.delete('foo');
 	different(hello, world);
+
+	world.add('foo');
+	same(hello, world);
 });
 
 Sets.run();
