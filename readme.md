@@ -1,6 +1,6 @@
 # dequal [![CI](https://github.com/lukeed/dequal/workflows/CI/badge.svg)](https://github.com/lukeed/dequal/actions)
 
-> A tiny (304B) utility to check for deep equality
+> A tiny (304B to 489B) utility to check for deep equality
 
 This module supports comparison of all types, including `Function`, `RegExp`, `Date`, `null`, `undefined`, and `NaN` values. Objects and Arrays are traversed recursively.
 
@@ -19,6 +19,23 @@ This module exposes three module definitions:
 ```
 $ npm install --save dequal
 ```
+
+## Modes
+
+There are two "versions" of `dequal` available:
+
+#### `dequal`
+> **Size (gzip):** 489 bytes<br>
+> **Availability:** [CommonJS](https://unpkg.com/dequal/dist/index.js), [ES Module](https://unpkg.com/dequal/dist/index.mjs), [UMD](https://unpkg.com/dequal/dist/index.min.js)
+
+#### `dequal/lite`
+> **Size (gzip):** 304 bytes<br>
+> **Availability:** [CommonJS](https://unpkg.com/dequal/lite/index.js), [ES Module](https://unpkg.com/dequal/lite/index.mjs)
+
+|  | Size (gzip) | IE Compat | Number | String | Date | RegExp | Object | Array | Class | Set | Map | ArrayBuffer | TypedArray | DataView |
+|-|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| `dequal` | 489B | :x: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| `dequal/lite` | 304B | :+1: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | :x: | :x: | :x: | :x: |
 
 
 ## Usage
