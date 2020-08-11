@@ -267,6 +267,128 @@ Classes.run();
 
 // ---
 
+const Maps = suite('Map');
+
+Maps('flat', () => {
+	const hello = new Map();
+	const world = new Map();
+
+	same(hello, world);
+
+	world.set('hello', 'world');
+	different(hello, world);
+
+	hello.set('foo', 'bar');
+	different(hello, world);
+
+	world.set('foo', 'bar');
+	hello.set('hello', 'world');
+	same(hello, world);
+});
+
+Maps('nested', () => {
+	const hello = new Map([
+		['foo', { a: 1 }],
+		['bar', [1, 2, 3]],
+	]);
+
+	const world = new Map([
+		['foo', 'bar']
+	]);
+
+	different(hello, world);
+
+	// @ts-ignore
+	world.set('foo', { a: 1 });
+	different(hello, world);
+
+	// @ts-ignore
+	world.set('bar', [1, 2, 3]);
+	same(hello, world);
+
+	// @ts-ignore
+	hello.set('baz', new Map([['hello', 'world']]));
+	different(hello, world);
+
+	// @ts-ignore
+	world.set('baz', new Map([['hello', 'world']]));
+	same(hello, world);
+});
+
+Maps('nested :: keys', () => {
+	const hello = new Map([
+		[{ foo:1 }, { a:1 }]
+	]);
+
+	const world = new Map([
+		[{ foo:1 }, { a:1 }]
+	]);
+
+	// Must be referential equality
+	// TODO: Use `dequal/full` for key equality checks
+	different(hello, world);
+
+	// @ts-ignore
+	[...world.keys()][0].bar = 2;
+
+	assert.equal([...hello.keys()][0], { foo:1 });
+	assert.equal([...world.keys()][0], { foo:1, bar:2 });
+
+	different(hello, world);
+});
+
+Maps.run();
+
+// ---
+
+const Sets = suite('Set');
+
+Sets('flat', () => {
+	const hello = new Set();
+	const world = new Set();
+
+	same(hello, world);
+
+	world.add('hello');
+	different(hello, world);
+
+	hello.add('foo');
+	different(hello, world);
+
+	world.add('foo');
+	hello.add('hello');
+	same(hello, world);
+});
+
+Sets('flat :: order', () => {
+	const hello = new Set(['foo', 'bar']);
+	const world = new Set(['bar', 'foo']);
+	same(hello, world);
+});
+
+Sets('nested', () => {
+	const hello = new Set([
+		'foo', 'bar', { a: 1 }, [1, 2, 3]
+	]);
+
+	const world = new Set([
+		'foo', { a: 1 }, 'bar'
+	]);
+
+	different(hello, world);
+
+	// @ts-ignore
+	world.add([1, 2, 3]);
+
+	// Must be referential equality
+	// TODO: Use `dequal/full` for key equality checks
+	different(hello, world);
+});
+
+Sets.run();
+
+// ---
+
 const kitchen = suite('kitchen');
 
 kitchen('kitchen sink', () => {
