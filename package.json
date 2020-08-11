@@ -26,6 +26,17 @@
     "dist",
     "lite"
   ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./lite": {
+      "import": "./lite/index.mjs",
+      "require": "./lite/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "modes": {
     "lite": "src/lite.js",
     "default": "src/index.js"
