@@ -411,6 +411,113 @@ Sets.run();
 
 // ---
 
+const TypedArrays = suite('TypedArray');
+
+TypedArrays('Buffer', () => {
+	same(
+		Buffer.from('hello'),
+		new Buffer('hello'),
+	);
+
+	different(
+		Buffer.from('hello'),
+		Buffer.from('world'),
+	);
+
+	different(
+		Buffer.from('hello', 'base64'),
+		Buffer.from('hello', 'utf8'),
+	);
+});
+
+TypedArrays('Int16Array', () => {
+	same(
+		new Int16Array([42]),
+		new Int16Array([42]),
+	);
+
+	different(
+		new Int16Array([1, 2, 3]),
+		new Int16Array([1, 2]),
+	);
+
+	different(
+		new Int16Array([1, 2, 3]),
+		new Int16Array([4, 5, 6]),
+	);
+
+	different(
+		new Int16Array([1, 2, 3]),
+		new Uint16Array([1, 2, 3]),
+	);
+
+	different(
+		new Int16Array([1, 2, 3]),
+		new Int8Array([1, 2, 3]),
+	);
+});
+
+TypedArrays('Int32Array', () => {
+	same(
+		new Int32Array(new ArrayBuffer(4)),
+		new Int32Array(new ArrayBuffer(4)),
+	);
+
+	different(
+		new Int32Array(8),
+		new Uint32Array(8),
+	);
+
+	different(
+		new Int32Array(new ArrayBuffer(8)),
+		new Int32Array(Array.from({ length: 8 })),
+	);
+});
+
+TypedArrays('ArrayBuffer', () => {
+	same(
+		new ArrayBuffer(2),
+		new ArrayBuffer(2),
+	);
+
+	different(
+		new ArrayBuffer(1),
+		new ArrayBuffer(2),
+	);
+});
+
+TypedArrays('DataView', () => {
+	same(
+		new DataView(new ArrayBuffer(4)),
+		new DataView(new ArrayBuffer(4)),
+	);
+
+	const hello = new Int8Array([1, 2, 3, 4, 5]);
+	const world = new Int8Array([1, 2, 3, 4, 5]);
+
+	same(hello, world);
+	same(hello.buffer, world.buffer);
+
+	same(
+		new DataView(hello.buffer),
+		new DataView(world.buffer)
+	);
+
+	hello.fill(0);
+
+	different(hello, world);
+	different(hello.buffer, world.buffer);
+
+	different(
+		new DataView(hello.buffer),
+		new DataView(world.buffer)
+	);
+});
+
+TypedArrays.run();
+
+// ---
+
 const kitchen = suite('kitchen');
 
 kitchen('kitchen sink', () => {
