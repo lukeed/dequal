@@ -23,8 +23,13 @@
   },
   "files": [
     "*.d.ts",
-    "dist"
+    "dist",
+    "lite"
   ],
+  "modes": {
+    "lite": "src/lite.js",
+    "default": "src/index.js"
+  },
   "keywords": [
     "deep",
     "deep-equal",
