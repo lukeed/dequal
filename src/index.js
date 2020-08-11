@@ -1,7 +1,13 @@
 var has = Object.prototype.hasOwnProperty;
 
+function find(iter, tar, key) {
+	for (key of iter.keys()) {
+		if (dequal(key, tar)) return key;
+	}
+}
+
 export function dequal(foo, bar) {
-	var ctor, len;
+	var ctor, len, tmp;
 	if (foo === bar) return true;
 
 	if (foo && bar && (ctor=foo.constructor) === bar.constructor) {
@@ -16,14 +22,34 @@ export function dequal(foo, bar) {
 		}
 
 		if (ctor === Set) {
-			if (foo.size !== bar.size) return false;
-			for (len of foo) if (!bar.has(len)) return false;
+			if (foo.size !== bar.size) {
+				return false;
+			}
+			for (len of foo) {
+				tmp = len;
+				if (tmp && typeof tmp === 'object') {
+					tmp = find(bar, tmp);
+					if (!tmp) return false;
+				}
+				if (!bar.has(tmp)) return false;
+			}
 			return true;
 		}
 
 		if (ctor === Map) {
-			if (foo.size !== bar.size) return false;
-			for (len of foo) if (!dequal(len[1], bar.get(len[0]))) return false;
+			if (foo.size !== bar.size) {
+				return false;
+			}
+			for (len of foo) {
+				tmp = len[0];
+				if (tmp && typeof tmp === 'object') {
+					tmp = find(bar, tmp);
+					if (!tmp) return false;
+				}
+				if (!dequal(len[1], bar.get(tmp))) {
+					return false;
+				}
+			}
 			return true;
 		}
 
