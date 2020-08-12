@@ -2,15 +2,15 @@ name: CI
 
 on:
   push:
-    paths:
-      - 'src/**'
-      - 'test/**'
+    paths-ignore:
+      - 'bench/**'
+      - '*.md'
     tags-ignore:
       - '**'
   pull_request:
     paths:
-      - 'src/**'
-      - 'test/**'
+      - 'bench/**'
+      - '*.md'
 
 jobs:
   test:
@@ -20,10 +20,7 @@ jobs:
       matrix:
         nodejs: [8, 10, 12]
     steps:
-    - uses: actions/checkout@master
-      with:
-        fetch-depth: 1
-
+    - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.nodejs }}
