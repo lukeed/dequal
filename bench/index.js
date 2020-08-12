@@ -1,4 +1,6 @@
+const { join } = require('path');
 const { Suite } = require('benchmark');
+const klona = require('klona');
 
 console.log('Load times:');
 
@@ -26,6 +28,9 @@ console.time('dequal');
 const { dequal } = require('dequal');
 console.timeEnd('dequal');
 
+console.time('dequal/lite');
+const lite = require('dequal/lite');
+console.timeEnd('dequal/lite');
 
 function naiive(a, b) {
 	try {
@@ -36,101 +41,62 @@ function naiive(a, b) {
 	}
 }
 
-const contenders = {
+// @ts-ignore
+const assert = (foo, bar, msg='') => deepStrictEqual(foo, bar, msg);
+
+function runner(name, contenders) {
+	const file = join(__dirname, 'fixtures', name + '.js');
+	const fixture = require(file);
+
+	console.log('\n(%s) Validation: ', name);
+	Object.keys(contenders).forEach(name => {
+		const func = contenders[name];
+		const { foo, bar } = klona(fixture);
+
+		try {
+			assert(func(1, 1), true, 'equal numbers');
+			assert(func(1, 2), false, 'not equal numbers');
+			assert(func(1, [1]), false, 'number vs array');
+			assert(func(0, null), false, 'number vs null');
+			assert(func(0, undefined), false, 'number vs undefined');
+
+			assert(func(foo, bar), true, 'kitchen sink');
+			console.log('  ✔', name);
+		} catch (err) {
+			console.log('  ✘', name, `(FAILED @ "${err.message}")`);
+		}
+	});
+
+	console.log('\n(%s) Benchmark: ', name);
+	const bench = new Suite().on('cycle', e => {
+		console.log('  ' + e.target);
+	});
+
+	Object.keys(contenders).forEach(name => {
+		const { foo, bar } = klona(fixture);
+		bench.add(name + ' '.repeat(22 - name.length), () => {
+			// contenders[name]({ a: 1, b: 2, c: 3 }, { a: 1, b: 4, c: 3 });
+			contenders[name](foo, bar);
+		})
+	});
+
+	bench.run();
+}
+
+runner('basic', {
 	'assert.deepStrictEqual': naiive,
 	'util.isDeepStrictEqual': isDeepStrictEqual,
 	'fast-deep-equal': fastdeep,
 	'lodash.isEqual': lodash,
 	'nano-equal': nanoequal,
+	'dequal/lite': lite.dequal,
 	'dequal': dequal,
-};
-
-console.log('\nValidation: ');
-Object.keys(contenders).forEach(name => {
-	const func = contenders[name];
-
-	try {
-		deepStrictEqual(func(1, 1), true, 'equal numbers');
-		deepStrictEqual(func(1, 2), false, 'not equal numbers');
-		deepStrictEqual(func(1, [1]), false, 'number vs array');
-		deepStrictEqual(func(0, null), false, 'number vs null');
-		deepStrictEqual(func(0, undefined), false, 'number vs undefined');
-
-		deepStrictEqual(
-			func({
-				prop1: 'value1',
-				prop2: 'value2',
-				prop3: 'value3',
-				prop4: {
-					subProp1: 'sub value1',
-					subProp2: {
-						subSubProp1: 'sub sub value1',
-						subSubProp2: [1, 2, {prop2: 1, prop: 2}, 4, 5]
-					}
-				},
-				prop5: 1000,
-				prop6: new Date(2016, 2, 10)
-			}, {
-				prop5: 1000,
-				prop3: 'value3',
-				prop1: 'value1',
-				prop2: 'value2',
-				prop6: new Date('2016/03/10'),
-				prop4: {
-					subProp2: {
-						subSubProp1: 'sub sub value1',
-						subSubProp2: [1, 2, {prop2: 1, prop: 2}, 4, 5]
-					},
-					subProp1: 'sub value1'
-				}
-			}),
-			true,
-			'kitchen sink'
-		)
-
-		console.log('  ✔', name);
-	} catch (err) {
-		console.log('  ✘', name, `(FAILED @ "${err.message}")`);
-	}
 });
 
-
-console.log('\nBenchmark:');
-const bench = new Suite().on('cycle', e => {
-	console.log('  ' + e.target);
+// Only keep those that pass
+runner('complex', {
+	'assert.deepStrictEqual': naiive,
+	'util.isDeepStrictEqual': isDeepStrictEqual,
+	'lodash.isEqual': lodash,
+	'dequal': dequal,
 });
-
-Object.keys(contenders).forEach(name => {
-	bench.add(name + ' '.repeat(22 - name.length), () => {
-		// contenders[name]({ a: 1, b: 2, c: 3 }, { a: 1, b: 4, c: 3 });
-		contenders[name]({
-			prop1: 'value1',
-			prop2: 'value2',
-			prop3: 'value3',
-			prop4: {
-				subProp1: 'sub value1',
-				subProp2: {
-					subSubProp1: 'sub sub value1',
-					subSubProp2: [1, 2, {prop2: 1, prop: 2}, 4, 5]
-				}
-			},
-			prop5: 1000,
-			prop6: new Date(2016, 2, 10)
-		}, {
-			prop5: 1000,
-			prop3: 'value3',
-			prop1: 'value1',
-			prop2: 'value2',
-			prop6: new Date('2016/03/10'),
-			prop4: {
-				subProp2: {
-					subSubProp1: 'sub sub value1',
-					subSubProp2: [1, 2, {prop2: 1, prop: 2}, 4, 5]
-				},
-				subProp1: 'sub value1'
-			}
-		});
-	})
-});
-
-bench.run();
