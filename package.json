@@ -2,7 +2,7 @@
   "name": "dequal",
   "version": "1.0.1",
   "repository": "lukeed/dequal",
-  "description": "A tiny (304B) utility for check for deep equality",
+  "description": "A tiny (304B to 489B) utility for check for deep equality",
   "unpkg": "dist/index.min.js",
   "module": "dist/index.mjs",
   "main": "dist/index.js",

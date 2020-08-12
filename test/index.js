@@ -324,7 +324,6 @@ Maps('keys :: complex', () => {
 		[{ foo:1 }, { a:1 }]
 	]);
 
-	// Must be referential equality
 	same(hello, world);
 
 	// @ts-ignore
