@@ -77,30 +77,37 @@ A `Boolean` is returned indicating if the two were deeply equal.
 
 > Running Node v10.13.0
 
+The benchmarks can be found in the [`/bench`](/bench) directory. They are separated into two categories:
+
+* `basic` – compares an object comprised of `String`, `Number`, `Date`, `Array`, and `Object` values.
+* `complex` – like `basic`, but adds `RegExp`, `Map`, `Set`, and `Uint8Array` values.
+
+> **Note:** Only candidates that pass validation step(s) are listed. <br>For example, `fast-deep-equal/es6` handles `Set` and `Map` values, but uses _referential equality_ while those listed use _value equality_.
+
 ```
 Load times:
-  assert:            0.166ms
-  util:              0.032ms
-  fast-deep-equal    0.712ms
-  lodash/isequal    24.700ms
-  nano-equal         0.506ms
-  dequal             0.365ms
+  assert             0.109ms
+  util               0.006ms
+  fast-deep-equal    0.479ms
+  lodash/isequal    22.826ms
+  nano-equal         0.417ms
+  dequal             0.396ms
+  dequal/lite        0.264ms
 
-Validation:
-  ✔ assert.deepStrictEqual
-  ✔ util.isDeepStrictEqual
-  ✔ fast-deep-equal
-  ✔ lodash.isEqual
-  ✔ nano-equal
-  ✔ dequal
+Benchmark :: basic
+  assert.deepStrictEqual  x    325,262 ops/sec ±0.57% (94 runs sampled)
+  util.isDeepStrictEqual  x    318,812 ops/sec ±0.87% (94 runs sampled)
+  fast-deep-equal         x  1,332,393 ops/sec ±0.36% (93 runs sampled)
+  lodash.isEqual          x    269,129 ops/sec ±0.59% (95 runs sampled)
+  nano-equal              x  1,122,053 ops/sec ±0.36% (96 runs sampled)
+  dequal/lite             x  1,700,972 ops/sec ±0.31% (94 runs sampled)
+  dequal                  x  1,698,972 ops/sec ±0.63% (97 runs sampled)
 
-Benchmark:
-  assert.deepStrictEqual x 211,987 ops/sec ±1.47% (92 runs sampled)
-  util.isDeepStrictEqual x 213,516 ops/sec ±1.25% (93 runs sampled)
-  fast-deep-equal        x 479,017 ops/sec ±1.15% (89 runs sampled)
-  lodash.isEqual         x 207,120 ops/sec ±0.47% (96 runs sampled)
-  nano-equal             x 409,286 ops/sec ±0.73% (97 runs sampled)
-  dequal                 x 541,815 ops/sec ±0.95% (94 runs sampled)
+Benchmark :: complex
+  assert.deepStrictEqual  x    124,518 ops/sec ±0.64% (96 runs sampled)
+  util.isDeepStrictEqual  x    125,113 ops/sec ±0.24% (96 runs sampled)
+  lodash.isEqual          x     58,677 ops/sec ±0.49% (96 runs sampled)
+  dequal                  x    345,386 ops/sec ±0.27% (96 runs sampled)
 ```
 
 ## License
