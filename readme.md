@@ -2,16 +2,13 @@
 
 > A tiny (304B to 489B) utility to check for deep equality
 
-This module supports comparison of all types, including `Function`, `RegExp`, `Date`, `null`, `undefined`, and `NaN` values. Objects and Arrays are traversed recursively.
+This module supports comparison of all types, including `Function`, `RegExp`, `Date`, `Set`, `Map`, `TypedArray`s, `DataView`, `null`, `undefined`, and `NaN` values. Complex values (eg, Objects, Arrays, Sets, Maps, etc) are traversed recursively.
 
-> Please note that key order **within Objects** does not matter.<br>
-However, the value order **within Arrays** does matter.
-
-This module exposes three module definitions:
-
-* **CommonJS**: `dist/dequal.js`
-* **ESModule**: `dist/dequal.mjs`
-* **UMD**: `dist/dequal.min.js`
+> **Important:**
+> * key order **within Objects** does not matter
+> * value order **within Arrays** _does_ matter
+> * values **within Sets and Maps** use value equality
+> * keys **within Maps** use value equality
 
 
 ## Install
