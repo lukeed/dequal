@@ -5,12 +5,16 @@ on:
     paths-ignore:
       - 'bench/**'
       - '*.md'
+    branches:
+      - '**'
     tags-ignore:
       - '**'
   pull_request:
-    paths:
+    paths-ignore:
       - 'bench/**'
       - '*.md'
+    branches:
+      - master
 
 jobs:
   test:
