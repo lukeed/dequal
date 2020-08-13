@@ -39,7 +39,7 @@ There are two "versions" of `dequal` available:
 ## Usage
 
 ```js
-import dequal from 'dequal';
+import { dequal } from 'dequal';
 
 dequal(1, 1); //=> true
 dequal({}, {}); //=> true
