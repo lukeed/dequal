@@ -30,11 +30,13 @@
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
+      "require": "./dist/index.js",
+      "types": "./index.d.ts"
     },
     "./lite": {
       "import": "./lite/index.mjs",
-      "require": "./lite/index.js"
+      "require": "./lite/index.js",
+      "types": "./index.d.ts"
     },
     "./package.json": "./package.json"
   },
