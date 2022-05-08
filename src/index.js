@@ -64,7 +64,7 @@ export function dequal(foo, bar) {
 		}
 
 		if (ArrayBuffer.isView(foo)) {
-			if ((len=foo.byteLength) === bar.byteLength) {
+			if ((len=foo.length) === bar.length) {
 				while (len-- && foo[len] === bar[len]);
 			}
 			return len === -1;
