@@ -29,14 +29,14 @@
   ],
   "exports": {
     ".": {
+      "types": "./index.d.ts",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      "types": "./index.d.ts"
+      "require": "./dist/index.js"
     },
     "./lite": {
+      "types": "./index.d.ts",
       "import": "./lite/index.mjs",
-      "require": "./lite/index.js",
-      "types": "./index.d.ts"
+      "require": "./lite/index.js"
     },
     "./package.json": "./package.json"
   },
