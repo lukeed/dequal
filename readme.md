@@ -1,4 +1,4 @@
-# dequal [![CI](https://github.com/lukeed/dequal/workflows/CI/badge.svg)](https://github.com/lukeed/dequal/actions)
+# dequal [![CI](https://github.com/lukeed/dequal/workflows/CI/badge.svg)](https://github.com/lukeed/dequal/actions) [![licenses](https://licenses.dev/b/npm/dequal)](https://licenses.dev/npm/dequal)
 
 > A tiny (304B to 489B) utility to check for deep equality
 
