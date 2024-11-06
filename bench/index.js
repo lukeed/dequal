@@ -1,6 +1,6 @@
 const { join } = require('path');
 const { Suite } = require('benchmark');
-const klona = require('klona');
+const { klona } = require('klona');
 
 console.log('Load times:');
 
@@ -12,12 +12,16 @@ console.time('util');
 const { isDeepStrictEqual } = require('util');
 console.timeEnd('util');
 
+console.time('deep-equal');
+const deepEqual = require('deep-equal');
+console.timeEnd('deep-equal');
+
 console.time('fast-deep-equal');
 const fastdeep = require('fast-deep-equal');
 console.timeEnd('fast-deep-equal');
 
 console.time('lodash/isequal');
-const lodash = require('lodash/isequal');
+const lodash = require('lodash/isEqual');
 console.timeEnd('lodash/isequal');
 
 console.time('nano-equal');
@@ -86,6 +90,7 @@ function runner(name, contenders) {
 runner('basic', {
 	'assert.deepStrictEqual': naiive,
 	'util.isDeepStrictEqual': isDeepStrictEqual,
+	'deep-equal': deepEqual,
 	'fast-deep-equal': fastdeep,
 	'lodash.isEqual': lodash,
 	'nano-equal': nanoequal,
@@ -97,6 +102,7 @@ runner('basic', {
 runner('complex', {
 	'assert.deepStrictEqual': naiive,
 	'util.isDeepStrictEqual': isDeepStrictEqual,
+	'deep-equal': deepEqual,
 	'lodash.isEqual': lodash,
 	'dequal': dequal,
 });
