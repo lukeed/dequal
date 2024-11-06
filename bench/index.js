@@ -1,6 +1,6 @@
 const { join } = require('path');
 const { Suite } = require('benchmark');
-const { klona } = require('klona');
+const klona = require('klona');
 
 console.log('Load times:');
 
@@ -21,7 +21,7 @@ const fastdeep = require('fast-deep-equal');
 console.timeEnd('fast-deep-equal');
 
 console.time('lodash/isequal');
-const lodash = require('lodash/isEqual');
+const lodash = require('lodash/isequal');
 console.timeEnd('lodash/isequal');
 
 console.time('nano-equal');

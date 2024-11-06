@@ -17,7 +17,6 @@
     "node": ">=6"
   },
   "scripts": {
-    "bench": "node ./bench",
     "build": "bundt",
     "pretest": "npm run build",
     "postbuild": "echo \"lite\" | xargs -n1 cp -v index.d.ts",
@@ -51,15 +50,8 @@
     "equality"
   ],
   "devDependencies": {
-    "benchmark": "^2.1.4",
     "bundt": "1.0.2",
-    "deep-equal": "^2.2.3",
-    "dequal": "^2.0.3",
     "esm": "3.2.25",
-    "fast-deep-equal": "^3.1.3",
-    "klona": "^2.0.6",
-    "lodash": "^4.17.21",
-    "nano-equal": "^2.0.2",
     "uvu": "0.3.2"
   }
 }
