@@ -20,9 +20,9 @@ console.time('fast-deep-equal');
 const fastdeep = require('fast-deep-equal');
 console.timeEnd('fast-deep-equal');
 
-console.time('lodash/isequal');
-const lodash = require('lodash/isequal');
-console.timeEnd('lodash/isequal');
+console.time('lodash/isEqual');
+const lodash = require('lodash/isEqual');
+console.timeEnd('lodash/isEqual');
 
 console.time('nano-equal');
 const nanoequal = require('nano-equal');
