@@ -12,13 +12,17 @@ console.time('util');
 const { isDeepStrictEqual } = require('util');
 console.timeEnd('util');
 
+console.time('deep-equal');
+const deepEqual = require('deep-equal');
+console.timeEnd('deep-equal');
+
 console.time('fast-deep-equal');
 const fastdeep = require('fast-deep-equal');
 console.timeEnd('fast-deep-equal');
 
-console.time('lodash/isequal');
-const lodash = require('lodash/isequal');
-console.timeEnd('lodash/isequal');
+console.time('lodash/isEqual');
+const lodash = require('lodash/isEqual');
+console.timeEnd('lodash/isEqual');
 
 console.time('nano-equal');
 const nanoequal = require('nano-equal');
@@ -86,6 +90,7 @@ function runner(name, contenders) {
 runner('basic', {
 	'assert.deepStrictEqual': naiive,
 	'util.isDeepStrictEqual': isDeepStrictEqual,
+	'deep-equal': deepEqual,
 	'fast-deep-equal': fastdeep,
 	'lodash.isEqual': lodash,
 	'nano-equal': nanoequal,
@@ -97,6 +102,7 @@ runner('basic', {
 runner('complex', {
 	'assert.deepStrictEqual': naiive,
 	'util.isDeepStrictEqual': isDeepStrictEqual,
+	'deep-equal': deepEqual,
 	'lodash.isEqual': lodash,
 	'dequal': dequal,
 });
