@@ -29,12 +29,21 @@ There are two "versions" of `dequal` available:
 > **Size (gzip):** 304 bytes<br>
 > **Availability:** [CommonJS](https://unpkg.com/dequal/lite/index.js), [ES Module](https://unpkg.com/dequal/lite/index.mjs)
 
-|  | IE9+ | Number | String | Date | RegExp | Object | Array | Class | Set | Map | ArrayBuffer | [TypedArray](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray#TypedArray_objects) | [DataView](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView) |
-|-|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-| `dequal` | :x: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| `dequal/lite` | :+1: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | :x: | :x: | :x: | :x: |
-
-> <sup>**Note:** Table scrolls horizontally!</sup>
+| | `dequal` | `dequal/lite` |
+|-|:--------:|:-------------:|
+| IE9+ | :x: | :+1: |
+| Number | :white_check_mark: | :white_check_mark: |
+| String | :white_check_mark: | :white_check_mark: |
+| Date | :white_check_mark: | :white_check_mark: |
+| RegExp | :white_check_mark: | :white_check_mark: |
+| Object | :white_check_mark: | :white_check_mark: |
+| Array | :white_check_mark: | :white_check_mark: |
+| Class | :white_check_mark: | :white_check_mark: |
+| Set | :white_check_mark: | :x: |
+| Map | :white_check_mark: | :x: |
+| ArrayBuffer | :white_check_mark: | :x: |
+| [TypedArray](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypedArray#TypedArray_objects) | :white_check_mark: | :x: |
+| [DataView](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/DataView) | :white_check_mark: | :x: |
 
 ## Usage
 
