@@ -1,6 +1,7 @@
 import { suite } from 'uvu';
 import * as assert from 'uvu/assert';
 import { dequal } from '../src';
+import vm from 'vm';
 
 function same(a, b) {
 	assert.is(dequal(a, b), true);
@@ -106,6 +107,14 @@ Arrays('Arrays', () => {
 	different([{ a:2 }, { b:2 }], [{ a:1 }, { b:2 }]);
 
 	different({ '0':0, '1':1, length:2 }, [0, 1]);
+});
+
+Arrays('cross-realm arrays', () => {
+	const context = vm.createContext({});
+	const CrossRealmArray = vm.runInContext('Array', context);
+	const arr1 = [1, 2, 3];
+	const arr2 = new CrossRealmArray(1, 2, 3);
+	same(arr1, arr2);
 });
 
 Arrays.run();
