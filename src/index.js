@@ -33,6 +33,14 @@ export function dequal(foo, bar) {
 				}
 				if (!bar.has(tmp)) return false;
 			}
+			for (len of bar) {
+				tmp = len;
+				if (tmp && typeof tmp === 'object') {
+					tmp = find(foo, tmp);
+					if (!tmp) return false;
+				}
+				if (!foo.has(tmp)) return false;
+			}
 			return true;
 		}
 
