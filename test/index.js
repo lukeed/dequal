@@ -384,6 +384,25 @@ Sets('flat :: order', () => {
 	same(hello, world);
 });
 
+Sets('nested :: duplicate-by-value entries', () => {
+	// Sets with object entries that are equal by value but different by reference
+	// can cause false positives if only one direction is checked
+	different(
+		new Set([new Set([1, 2]), new Set([1, 2])]),
+		new Set([new Set([1, 2]), new Set([1, 4])])
+	);
+
+	different(
+		new Set([{ a: 1 }, { a: 1 }]),
+		new Set([{ a: 1 }, { a: 2 }])
+	);
+
+	same(
+		new Set([new Set([1, 2]), new Set([3, 4])]),
+		new Set([new Set([3, 4]), new Set([1, 2])])
+	);
+});
+
 Sets('complex', () => {
 	const hello = new Set([
 		'foo', 'bar', { a: 1 }, [1, 2, 3]
