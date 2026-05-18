@@ -46,7 +46,7 @@ export function dequal(foo, bar) {
 					tmp = find(bar, tmp);
 					if (!tmp) return false;
 				}
-				if (!dequal(len[1], bar.get(tmp))) {
+				if (!bar.has(tmp) || !dequal(len[1], bar.get(tmp))) {
 					return false;
 				}
 			}

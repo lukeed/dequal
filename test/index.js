@@ -353,6 +353,15 @@ Maps('keys :: value-based', () => {
 			[{ a: 1 }, 1]
 		])
 	);
+
+	different(
+		new Map([
+			['foo', undefined]
+		]),
+		new Map([
+			['bar', undefined]
+		])
+	);
 });
 
 Maps.run();
