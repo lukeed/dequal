@@ -120,6 +120,11 @@ Dates('Dates', () => {
 		new Date('2015-05-01T22:16:18.234Z')
 	);
 
+	same(
+		new Date('invalid'),
+		new Date('invalid')
+	);
+
 	different(
 		new Date('2015-05-01T22:16:18.234Z'),
 		new Date('2017-01-01T00:00:00.000Z')
@@ -133,6 +138,11 @@ Dates('Dates', () => {
 	different(
 		new Date('2015-05-01T22:16:18.234Z'),
 		1430518578234
+	);
+
+	different(
+		new Date('invalid'),
+		new Date('2015-05-01T22:16:18.234Z')
 	);
 
 	different(

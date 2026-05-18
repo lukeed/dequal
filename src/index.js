@@ -11,7 +11,11 @@ export function dequal(foo, bar) {
 	if (foo === bar) return true;
 
 	if (foo && bar && (ctor=foo.constructor) === bar.constructor) {
-		if (ctor === Date) return foo.getTime() === bar.getTime();
+		if (ctor === Date) {
+			len = foo.getTime();
+			tmp = bar.getTime();
+			return len === tmp || (len !== len && tmp !== tmp);
+		}
 		if (ctor === RegExp) return foo.toString() === bar.toString();
 
 		if (ctor === Array) {
