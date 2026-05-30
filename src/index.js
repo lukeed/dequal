@@ -30,8 +30,9 @@ export function dequal(foo, bar) {
 				if (tmp && typeof tmp === 'object') {
 					tmp = find(bar, tmp);
 					if (!tmp) return false;
+				} else if (!bar.has(tmp)) {
+					return false;
 				}
-				if (!bar.has(tmp)) return false;
 			}
 			return true;
 		}
