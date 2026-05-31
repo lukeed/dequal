@@ -25,13 +25,22 @@ export function dequal(foo, bar) {
 			if (foo.size !== bar.size) {
 				return false;
 			}
+			var unmatched = [];
+			for (len of bar) unmatched.push(len);
 			for (len of foo) {
-				tmp = len;
-				if (tmp && typeof tmp === 'object') {
-					tmp = find(bar, tmp);
-					if (!tmp) return false;
+				tmp = -1;
+				if (len && typeof len === 'object') {
+					for (var i = 0; i < unmatched.length; i++) {
+						if (dequal(len, unmatched[i])) {
+							tmp = i;
+							break;
+						}
+					}
+					if (tmp === -1) return false;
+					unmatched.splice(tmp, 1);
+				} else if (!bar.has(len)) {
+					return false;
 				}
-				if (!bar.has(tmp)) return false;
 			}
 			return true;
 		}
@@ -40,14 +49,22 @@ export function dequal(foo, bar) {
 			if (foo.size !== bar.size) {
 				return false;
 			}
+			var unmatched = [];
+			for (len of bar) unmatched.push(len);
 			for (len of foo) {
-				tmp = len[0];
-				if (tmp && typeof tmp === 'object') {
-					tmp = find(bar, tmp);
-					if (!tmp) return false;
-				}
-				if (!dequal(len[1], bar.get(tmp))) {
-					return false;
+				tmp = -1;
+				if (len[0] && typeof len[0] === 'object') {
+					for (var i = 0; i < unmatched.length; i++) {
+						if (dequal(len[0], unmatched[i][0])) {
+							tmp = i;
+							break;
+						}
+					}
+					if (tmp === -1) return false;
+					if (!dequal(len[1], unmatched[tmp][1])) return false;
+					unmatched.splice(tmp, 1);
+				} else {
+					if (!bar.has(len[0]) || !dequal(len[1], bar.get(len[0]))) return false;
 				}
 			}
 			return true;
