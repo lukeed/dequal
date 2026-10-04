@@ -1,6 +1,6 @@
 # dequal [![CI](https://github.com/lukeed/dequal/workflows/CI/badge.svg)](https://github.com/lukeed/dequal/actions) [![licenses](https://licenses.dev/b/npm/dequal)](https://licenses.dev/npm/dequal)
 
-> A tiny (304B to 489B) utility to check for deep equality
+> A utility to check for deep equality
 
 This module supports comparison of all types, including `Function`, `RegExp`, `Date`, `Set`, `Map`, `TypedArray`s, `DataView`, `null`, `undefined`, and `NaN` values. Complex values (eg, Objects, Arrays, Sets, Maps, etc) are traversed recursively.
 
@@ -22,7 +22,6 @@ $ npm install --save dequal
 There are two "versions" of `dequal` available:
 
 #### `dequal`
-> **Size (gzip):** 489 bytes<br>
 > **Availability:** [CommonJS](https://unpkg.com/dequal/dist/index.js), [ES Module](https://unpkg.com/dequal/dist/index.mjs), [UMD](https://unpkg.com/dequal/dist/index.min.js)
 
 #### `dequal/lite`
