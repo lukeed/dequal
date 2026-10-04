@@ -355,6 +355,116 @@ Maps('keys :: value-based', () => {
 	);
 });
 
+Maps('entries :: complete matching', () => {
+	const left = new Map([
+		[{}, 1],
+		[{}, 2],
+	]);
+	const right = new Map([
+		[{}, 2],
+		[{}, 1],
+	]);
+	same(left, right);
+	different(left, new Map([
+		[{}, 1],
+		[{}, 1],
+	]));
+	different(new Map([
+		[{}, 1],
+		[{}, 1],
+	]), new Map([
+		[{}, 1],
+		[{}, 2],
+	]));
+});
+
+Maps('entries :: late identity and nested values', () => {
+	const shared = { x: 1 };
+	const left = new Map([
+		[shared, 1],
+		[{ x: 1 }, 2],
+	]);
+	const right = new Map([
+		[{ x: 1 }, 2],
+		[shared, 1],
+	]);
+	same(left, right);
+
+	const duplicate = new Set([new Set([1, 2]), new Set([1, 2])]);
+	const asymmetric = new Set([new Set([1, 2]), new Set([1, 4])]);
+	same(
+		new Map([[{}, duplicate], [{}, asymmetric]]),
+		new Map([[{}, asymmetric], [{}, duplicate]])
+	);
+
+	// Map keeps the existing target-key -> source-key predicate direction.
+	same(new Map([[asymmetric, 1]]), new Map([[duplicate, 1]]));
+	different(new Map([[duplicate, 1]]), new Map([[asymmetric, 1]]));
+});
+
+Maps('keys :: special values and no mutation', () => {
+	const symbol = Symbol('key');
+	const boxed = new Number(0);
+	const constructorless = Object.create(null);
+	const left = new Map([
+		[undefined, undefined],
+		[null, NaN],
+		[0, 'zero'],
+		[false, 'false'],
+		['', 'empty'],
+		[symbol, false],
+		[boxed, { value: 1 }],
+		[constructorless, 'plain'],
+	]);
+	const right = new Map([
+		[Object.create(null), 'plain'],
+		[new Number(0), { value: 1 }],
+		[symbol, false],
+		['', 'empty'],
+		[false, 'false'],
+		[0, 'zero'],
+		[null, NaN],
+		[undefined, undefined],
+	]);
+	const before = [...left.entries()];
+	same(left, right);
+	assert.equal([...left.entries()], before);
+
+	different(new Map([[undefined, undefined]]), new Map([[null, undefined]]));
+	different(new Map([[NaN, 1]]), new Map([[0, 1]]));
+	different(new Map([[function first() {}, 1]]), new Map([[function second() {}, 1]]));
+	same(new Map([[-0, 1]]), new Map([[0, 1]]));
+});
+
+Maps('keys :: function identity without constructor inspection', () => {
+	const fn = function () {};
+	Object.defineProperty(fn, 'constructor', {
+		get() { throw new Error('constructor must not be read'); }
+	});
+	const left = new Map([[fn, 1], [{ x: 1 }, 2]]);
+	const right = new Map([[{ x: 1 }, 2], [fn, 1]]);
+	same(left, right);
+	same(right, left);
+});
+
+Maps('entries :: long chain', () => {
+	const duplicate = n => new Set([new Set([n]), new Set([n])]);
+	const left = new Map();
+	let right = new Map();
+	for (let i=1; i<=160; i++) {
+		left.set({}, duplicate(i));
+	}
+	for (let i=1; i<160; i++) {
+		right.set({}, new Set([new Set([i]), new Set([i + 1])]));
+	}
+	right.set({}, duplicate(1));
+	same(left, right);
+	right = new Map(right);
+	const last = [...right.keys()][right.size - 1];
+	right.set(last, duplicate(161));
+	different(left, right);
+});
+
 Maps.run();
 
 // ---
