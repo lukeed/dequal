@@ -83,6 +83,18 @@ scalars('boxed primitives', () => {
 	}
 });
 
+scalars('ordinary objects with native constructor fields', () => {
+	const constructors = [Number, Boolean, String];
+	if (typeof Symbol === 'function') constructors.push(Symbol);
+	if (typeof BigInt === 'function') constructors.push(BigInt);
+	for (const constructor of constructors) {
+		same({ constructor, value: 1 }, { constructor, value: 1 });
+		different({ constructor, value: 1 }, { constructor, value: 2 });
+		different({ constructor }, Object(constructor(1)));
+		different(Object(constructor(1)), { constructor });
+	}
+});
+
 scalars.run();
 
 // ---
