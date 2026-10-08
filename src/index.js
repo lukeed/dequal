@@ -6,8 +6,16 @@ function find(iter, tar, key) {
 	}
 }
 
+function primitive(ctor, obj) {
+	try {
+		return ctor.prototype.valueOf.call(obj);
+	} catch (err) {
+		return obj;
+	}
+}
+
 export function dequal(foo, bar) {
-	var ctor, len, tmp;
+	var ctor, len, tmp, val;
 	if (foo === bar) return true;
 
 	if (foo && bar && (ctor=foo.constructor) === bar.constructor) {
@@ -71,6 +79,14 @@ export function dequal(foo, bar) {
 		}
 
 		if (!ctor || typeof foo === 'object') {
+			if (ctor === Number || ctor === String || ctor === Boolean
+				|| (typeof Symbol === 'function' && ctor === Symbol)
+				|| (typeof BigInt === 'function' && ctor === BigInt)) {
+				if (typeof bar !== 'object') return false;
+				tmp = primitive(ctor, foo);
+				val = primitive(ctor, bar);
+				if ((tmp !== foo || val !== bar) && (tmp === foo || val === bar || !dequal(tmp, val))) return false;
+			}
 			len = 0;
 			for (ctor in foo) {
 				if (has.call(foo, ctor) && ++len && !has.call(bar, ctor)) return false;
