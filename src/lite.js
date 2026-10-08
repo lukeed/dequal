@@ -16,6 +16,11 @@ export function dequal(foo, bar) {
 		}
 
 		if (!ctor || typeof foo === 'object') {
+			if (ctor === Number || ctor === String || ctor === Boolean
+				|| (typeof Symbol === 'function' && ctor === Symbol)
+				|| (typeof BigInt === 'function' && ctor === BigInt)) {
+				if (typeof bar !== 'object' || !dequal(ctor.prototype.valueOf.call(foo), ctor.prototype.valueOf.call(bar))) return false;
+			}
 			len = 0;
 			for (ctor in foo) {
 				if (has.call(foo, ctor) && ++len && !has.call(bar, ctor)) return false;

@@ -52,6 +52,37 @@ scalars('scalars', () => {
 	different('a', 'b');
 });
 
+scalars('boxed primitives', () => {
+	same(Object(1), Object(1));
+	different(Object(1), Object(2));
+	same(Object(NaN), Object(NaN));
+	different(Object(NaN), Object(0));
+	same(Object(false), Object(false));
+	different(Object(false), Object(true));
+	same(Object('value'), Object('value'));
+	different(Object('value'), 'value');
+	different('value', Object('value'));
+	different(Object(1), 1);
+	different(1, Object(1));
+
+	const a = Object(1), b = Object(1);
+	a.extra = { value: 1 };
+	b.extra = { value: 1 };
+	same(a, b);
+	b.extra.value = 2;
+	different(a, b);
+
+	if (typeof Symbol === 'function') {
+		const symbol = Symbol('value');
+		same(Object(symbol), Object(symbol));
+		different(Object(symbol), Object(Symbol('value')));
+	}
+	if (typeof BigInt === 'function') {
+		same(Object(BigInt(1)), Object(BigInt(1)));
+		different(Object(BigInt(1)), Object(BigInt(2)));
+	}
+});
+
 scalars.run();
 
 // ---
