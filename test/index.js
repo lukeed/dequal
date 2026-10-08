@@ -412,6 +412,15 @@ Sets.run();
 
 const TypedArrays = suite('TypedArray');
 
+TypedArrays('floating point NaN values', () => {
+	for (const Type of [Float32Array, Float64Array]) {
+		same(new Type([1, NaN, 2]), new Type([1, NaN, 2]));
+		different(new Type([1, NaN, 2]), new Type([1, 0, 2]));
+		different(new Type([1, NaN, 2]), new Type([1, NaN, 3]));
+		different(new Type([NaN, 1]), new Type([1, NaN]));
+	}
+});
+
 TypedArrays('Buffer', () => {
 	same(
 		Buffer.from('hello'),
