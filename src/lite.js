@@ -8,7 +8,7 @@ export function dequal(foo, bar) {
 		if (ctor === Date) return foo.getTime() === bar.getTime();
 		if (ctor === RegExp) return foo.toString() === bar.toString();
 
-		if (ctor === Array) {
+		if (Array.isArray(foo)) {
 			if ((len=foo.length) === bar.length) {
 				while (len-- && dequal(foo[len], bar[len]));
 			}
