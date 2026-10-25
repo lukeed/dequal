@@ -108,6 +108,14 @@ Arrays('Arrays', () => {
 	different({ '0':0, '1':1, length:2 }, [0, 1]);
 });
 
+Arrays('subclass', () => {
+	class List extends Array {}
+
+	same(new List(1, 2), new List(1, 2));
+	different(new List(1), new List(2));
+	different(new List(1), new List(1, 2));
+});
+
 Arrays.run();
 
 // ---
