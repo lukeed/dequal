@@ -90,6 +90,40 @@ Objects('dictionary', () => {
 	different(foo, bar);
 });
 
+Objects('inherited enumerable values', () => {
+	const foo = Object.create({ inherited: 1 });
+	const bar = Object.create({ inherited: 2 });
+	foo.own = bar.own = 3;
+
+	same(foo, bar);
+	same(bar, foo);
+	same(Object.create({ inherited: 1 }), {});
+	same({}, Object.create({ inherited: 1 }));
+	same({ nested: foo }, { nested: bar });
+});
+
+Objects('own and inherited properties differ', () => {
+	const foo = Object.create({ value: 1 });
+	const bar = { value: 1 };
+
+	different(foo, bar);
+	different(bar, foo);
+});
+
+Objects('does not read inherited accessors', () => {
+	const foo = Object.create({
+		get value() {
+			throw new Error('inherited accessor read');
+		}
+	});
+	const bar = Object.create({ value: 0 });
+
+	same(foo, bar);
+	same(bar, foo);
+	same(foo, {});
+	same({}, foo);
+});
+
 Objects.run();
 
 // ---

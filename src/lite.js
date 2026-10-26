@@ -18,8 +18,10 @@ export function dequal(foo, bar) {
 		if (!ctor || typeof foo === 'object') {
 			len = 0;
 			for (ctor in foo) {
-				if (has.call(foo, ctor) && ++len && !has.call(bar, ctor)) return false;
-				if (!(ctor in bar) || !dequal(foo[ctor], bar[ctor])) return false;
+				if (has.call(foo, ctor)) {
+					len++;
+					if (!has.call(bar, ctor) || !dequal(foo[ctor], bar[ctor])) return false;
+				}
 			}
 			return Object.keys(bar).length === len;
 		}
