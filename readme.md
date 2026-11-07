@@ -61,6 +61,13 @@ dequal({ a:1, b:[2,3] }, { a:1, b:[2,5] }); //=> false
 dequal(/foo/i, /bar/g); //=> false
 ```
 
+For plain objects, a missing property differs from an own enumerable property whose value is `undefined`.
+
+```js
+dequal({ x:undefined }, {}); //=> false
+dequal({ x:undefined }, { x:undefined }); //=> true
+```
+
 ## API
 
 ### dequal(foo, bar)
