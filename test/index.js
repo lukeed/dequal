@@ -1,6 +1,6 @@
 import { suite } from 'uvu';
 import * as assert from 'uvu/assert';
-import { dequal } from '../src';
+import { dequal } from '../src/index.js';
 
 function same(a, b) {
 	assert.is(dequal(a, b), true);
@@ -355,6 +355,26 @@ Maps('keys :: value-based', () => {
 	);
 });
 
+Maps('keys :: duplicate-shaped keys', () => {
+	const m1 = new Map([
+		[{ a: 1 }, 'first'],
+		[{ a: 1 }, 'second'],
+	]);
+
+	const m2 = new Map([
+		[{ a: 1 }, 'second'],
+		[{ a: 1 }, 'first'],
+	]);
+
+	const m3 = new Map([
+		[{ a: 1 }, 'first'],
+		[{ a: 1 }, 'first'],
+	]);
+
+	same(m1, m2);
+	different(m1, m3);
+});
+
 Maps.run();
 
 // ---
@@ -404,6 +424,15 @@ Sets('complex', () => {
 
 	world.add('foo');
 	same(hello, world);
+});
+
+Sets('nested / duplicate-shaped items', () => {
+	const s1 = new Set([{ a: 1 }, { b: 2 }]);
+	const s2 = new Set([{ a: 1 }, { a: 1 }]);
+	const s3 = new Set([{ a: 1 }, { a: 1 }]);
+
+	different(s1, s2);
+	same(s2, s3);
 });
 
 Sets.run();

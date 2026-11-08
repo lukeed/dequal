@@ -1,13 +1,7 @@
 var has = Object.prototype.hasOwnProperty;
 
-function find(iter, tar, key) {
-	for (key of iter.keys()) {
-		if (dequal(key, tar)) return key;
-	}
-}
-
 export function dequal(foo, bar) {
-	var ctor, len, tmp;
+	var ctor, len, tmp, matches;
 	if (foo === bar) return true;
 
 	if (foo && bar && (ctor=foo.constructor) === bar.constructor) {
@@ -25,11 +19,21 @@ export function dequal(foo, bar) {
 			if (foo.size !== bar.size) {
 				return false;
 			}
-			for (len of foo) {
+			matches = new Set();
+			outer: for (len of foo) {
 				tmp = len;
 				if (tmp && typeof tmp === 'object') {
-					tmp = find(bar, tmp);
-					if (!tmp) return false;
+					if (bar.has(tmp) && !matches.has(tmp)) {
+						matches.add(tmp);
+						continue;
+					}
+					for (ctor of bar) {
+						if (!matches.has(ctor) && dequal(tmp, ctor)) {
+							matches.add(ctor);
+							continue outer;
+						}
+					}
+					return false;
 				}
 				if (!bar.has(tmp)) return false;
 			}
@@ -40,13 +44,23 @@ export function dequal(foo, bar) {
 			if (foo.size !== bar.size) {
 				return false;
 			}
-			for (len of foo) {
+			matches = new Set();
+			outer: for (len of foo) {
 				tmp = len[0];
 				if (tmp && typeof tmp === 'object') {
-					tmp = find(bar, tmp);
-					if (!tmp) return false;
+					if (bar.has(tmp) && !matches.has(tmp) && dequal(len[1], bar.get(tmp))) {
+						matches.add(tmp);
+						continue;
+					}
+					for (ctor of bar) {
+						if (!matches.has(ctor[0]) && dequal(tmp, ctor[0]) && dequal(len[1], ctor[1])) {
+							matches.add(ctor[0]);
+							continue outer;
+						}
+					}
+					return false;
 				}
-				if (!dequal(len[1], bar.get(tmp))) {
+				if (!bar.has(tmp) || !dequal(len[1], bar.get(tmp))) {
 					return false;
 				}
 			}
