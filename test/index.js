@@ -158,6 +158,34 @@ RegExps('RegExps', () => {
 	different(/foo/, {});
 });
 
+RegExps('subclasses :: source', () => {
+	class Pattern extends RegExp {}
+	const foo = new Pattern('foo');
+	const bar = new Pattern('bar');
+
+	different(foo, bar);
+	different(bar, foo);
+});
+
+RegExps('subclasses :: flags', () => {
+	class Pattern extends RegExp {}
+	const foo = new Pattern('foo', 'g');
+	const bar = new Pattern('foo', 'i');
+
+	different(foo, bar);
+	different(bar, foo);
+});
+
+RegExps('subclasses :: equality and constructors', () => {
+	class Pattern extends RegExp {}
+	class OtherPattern extends RegExp {}
+
+	same(new Pattern('foo', 'gi'), new Pattern('foo', 'ig'));
+	same({ pattern: new Pattern('foo') }, { pattern: new Pattern('foo') });
+	different(new Pattern('foo'), /foo/);
+	different(new Pattern('foo'), new OtherPattern('foo'));
+});
+
 RegExps.run();
 
 // ---
