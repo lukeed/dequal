@@ -13,6 +13,7 @@ export function dequal(foo, bar) {
 	if (foo && bar && (ctor=foo.constructor) === bar.constructor) {
 		if (ctor === Date) return foo.getTime() === bar.getTime();
 		if (ctor === RegExp) return foo.toString() === bar.toString();
+		if (typeof URLSearchParams === 'function' && ctor === URLSearchParams) return foo.toString() === bar.toString();
 
 		if (ctor === Array) {
 			if ((len=foo.length) === bar.length) {
