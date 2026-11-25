@@ -1,5 +1,6 @@
 import { suite } from 'uvu';
 import * as assert from 'uvu/assert';
+import { URLSearchParams } from 'url';
 import { dequal } from '../src';
 
 function same(a, b) {
@@ -159,6 +160,24 @@ RegExps('RegExps', () => {
 });
 
 RegExps.run();
+
+// ---
+
+const URLSearchParamss = suite('URLSearchParams');
+
+URLSearchParamss('URLSearchParams', () => {
+	same(new URLSearchParams('foo=bar'), new URLSearchParams('foo=bar'));
+	same(new URLSearchParams(), new URLSearchParams());
+	same(new URLSearchParams('a=1&a=2'), new URLSearchParams('a=1&a=2'));
+
+	different(new URLSearchParams('foo=bar'), new URLSearchParams('foo=baz'));
+	different(new URLSearchParams('foo=bar'), new URLSearchParams());
+	different(new URLSearchParams(), new URLSearchParams('foo=bar'));
+	different(new URLSearchParams('a=1&a=2'), new URLSearchParams('a=2&a=1'));
+	different(new URLSearchParams('a=1'), new URLSearchParams('a=1&a=1'));
+});
+
+URLSearchParamss.run();
 
 // ---
 
